@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  gogs:
+    image: gogs/gogs
+    volumes:
+      - ./gogs/data:/data
+    ports:
+      - "3000:3000"
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_DATABASE=apache_session
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+  apache:
+    build: apache/.
+    ports:
+      - "8443:443"
+    volumes:
+      - ./apache/html:/usr/local/apache2/htdocs
+      - ./apache/httpd/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./apache/httpd/apache2/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+      - ./apache/passwd:/usr/local/apache2/passwd
+    depends_on:
+      - gogs
+      - mysql
+volumes:
+  mysql-data:
