@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  </head>
+
   <body>
     <form method="POST" action="/dologin.html">
-      Username: <input type="text" name="httpd_username" value="" /> Password:
-      <input type="password" name="httpd_password" value="" />
+      <p>Username: <input type="text" name="httpd_username" value="" required="required"/></p>
+      <p>Password: <input type="password" name="httpd_password" value="" required="required"/></p>
       <input type="submit" name="login" value="Login" />
     </form>
   </body>

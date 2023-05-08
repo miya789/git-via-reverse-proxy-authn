@@ -20,12 +20,12 @@ services:
   apache:
     build: apache/.
     ports:
-      - "8443:443"
+      - "8443:8443"
     volumes:
-      - ./apache/html:/usr/local/apache2/htdocs
-      - ./apache/httpd/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - ./apache/httpd/apache2/conf/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
-      - ./apache/passwd:/usr/local/apache2/passwd
+      - ./apache/httpd/conf.d:/etc/httpd/conf.d
+      - ./apache/httpd/tls:/etc/httpd/tls
+      - ./apache/html:/var/www/html
+      - ./apache/passwd:/etc/httpd/passwd
     depends_on:
       - gogs
       - mysql
