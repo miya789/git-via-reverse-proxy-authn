@@ -1,12 +1,21 @@
 version: "3"
 
 services:
-  gogs:
-    image: gogs/gogs
-    volumes:
-      - ./gogs/data:/data
+  gitlab:
+    container_name: gitlab-container
+    image: 'gitlab/gitlab-ee:latest'
+    # restart: always
+    # hostname: 'localhost'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://localhost'
     ports:
-      - "3000:3000"
+      - '443:443'
+    volumes:
+      - './gitlab/config:/etc/gitlab'
+      - './gitlab/logs:/var/log/gitlab'
+      - './gitlab/data:/var/opt/gitlab'
+    shm_size: '256m'
   mysql:
     image: mysql:5.7
     environment:
@@ -27,7 +36,7 @@ services:
       - ./apache/html:/var/www/html
       - ./apache/passwd:/etc/httpd/passwd
     depends_on:
-      - gogs
+      - gitlab
       - mysql
 volumes:
   mysql-data:
